@@ -4,6 +4,7 @@ use App\Game\Tile;
 use App\Game\TileType;
 use App\Game\BoardState;
 use App\Game\TilePosition;
+use App\Exceptions\InvalidBoardStateException;
 
 class BoardStateTest extends TestCase
 {
@@ -58,6 +59,20 @@ class BoardStateTest extends TestCase
         ];
 
         $this->assertEquals($expected, $state->getMoves()->toArray());
+    }
+
+    /** @test */
+    public function it_can_stop_multiple_successive_unit_plays()
+    {
+        $this->expectException(InvalidBoardStateException::class);
+
+        $state = app(BoardState::class); // BoardState singleton
+        $state->add([
+            (new Tile)->withType(TileType::O)->withPosition(1),
+            (new Tile)->withType(TileType::X)->withPosition(2),
+            (new Tile)->withType(TileType::X)->withPosition(3),
+            (new Tile)->withType(TileType::O)->withPosition(9)
+        ]);
     }
 
     /** @test */
