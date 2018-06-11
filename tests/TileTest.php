@@ -44,6 +44,6 @@ class TileTest extends TestCase
     {
         $tile = (new Tile)->withType(TileType::O)->andPosition(2);
 
-        $this->assertEquals(TileType::O, $tile->getUnit());
+        $this->assertEquals(TileType::O, $tile->getType());
     }
 }

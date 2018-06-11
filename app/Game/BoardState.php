@@ -49,7 +49,7 @@ class BoardState implements Arrayable, Jsonable
             }
 
             $currentState = $this->state[$tile->getRow()];
-            $currentState[$tile->getRowPosition()] = $tile->getUnit();
+            $currentState[$tile->getRowPosition()] = $tile->getType();
 
             $this->state[$tile->getRow()] = $currentState;
         }

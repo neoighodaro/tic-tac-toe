@@ -53,6 +53,16 @@ class Tile
     }
 
     /**
+     * Gets the tile unit.
+     *
+     * @return string
+     */
+    public function getType() : string
+    {
+        return $this->type->getType();
+    }
+
+    /**
      * Get the tile type.
      *
      * @return App\Game\TileType
