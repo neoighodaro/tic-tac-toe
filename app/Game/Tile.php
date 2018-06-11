@@ -33,11 +33,31 @@ class Tile
     }
 
     /**
+     * Gets the position of the tile in the row of a board state.
+     *
+     * @return integer
+     */
+    public function getRowPosition(): int
+    {
+        return $this->position->getRowPosition();
+    }
+
+    /**
+     * Gets the row of the tile in the board state.
+     *
+     * @return integer
+     */
+    public function getRow(): int
+    {
+        return $this->position->getRow();
+    }
+
+    /**
      * Get the tile type.
      *
      * @return App\Game\TileType
      */
-    public function getType(): TileType
+    public function getTileType(): TileType
     {
         return $this->type;
     }
@@ -47,7 +67,7 @@ class Tile
      *
      * @return App\Game\TilePosition
      */
-    public function getPosition(): TilePosition
+    public function getTilePosition(): TilePosition
     {
         return $this->position;
     }
@@ -58,7 +78,7 @@ class Tile
      * @param integer $position
      * @return \App\Game\Tile
      */
-    protected function setPosition(int $position) : Tile
+    protected function setTilePosition(int $position) : Tile
     {
         $this->position = new TilePosition($position);
 
@@ -71,7 +91,7 @@ class Tile
      * @param string $type
      * @return \App\Game\Tile
      */
-    protected function setType(string $type) : Tile
+    protected function setTileType(string $type) : Tile
     {
         $this->type = new TileType($type);
 
@@ -94,13 +114,13 @@ class Tile
             $position = substr($name, -8) === 'Position';
 
             if ($position) {
-                return call_user_func_array([$this, 'setPosition'], $args);
+                return call_user_func_array([$this, 'setTilePosition'], $args);
             }
 
             $type = substr($name, -4) === 'Type';
 
             if ($type) {
-                return call_user_func_array([$this, 'setType'], $args);
+                return call_user_func_array([$this, 'setTileType'], $args);
             }
         }
     }

@@ -62,4 +62,29 @@ class TilePosition
     {
         return $this->position;
     }
+
+    /**
+     * Get the row the tile belongs to.
+     *
+     * @return integer
+     */
+    public function getRow(): int
+    {
+        if ($this->getPosition() > 6) {
+            return 2;
+        }
+
+        if ($this->getPosition() > 3) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    public function getRowPosition(): int
+    {
+        $position = $this->getPosition() - ($this->getRow() * 3);
+
+        return $position === 0 ? $position : $position - 1;
+    }
 }

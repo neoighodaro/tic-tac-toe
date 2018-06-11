@@ -11,6 +11,7 @@ class TilePositionTest extends TestCase
     {
         $this->expectException(InvalidTilePositionException::class);
 
+        new TilePosition(0);
         new TilePosition(10);
     }
 
@@ -20,5 +21,34 @@ class TilePositionTest extends TestCase
         $tilePosition = new TilePosition(9);
 
         $this->assertEquals(9, $tilePosition->getPosition());
+    }
+
+    /** @test */
+    public function it_can_return_tile_row()
+    {
+        $tilePosition = new TilePosition(1);
+        $this->assertEquals(0, $tilePosition->getRow());
+
+        $tilePosition = new TilePosition(5);
+        $this->assertEquals(1, $tilePosition->getRow());
+
+        $tilePosition = new TilePosition(9);
+        $this->assertEquals(2, $tilePosition->getRow());
+    }
+
+    /** @test */
+    public function it_can_return_tile_row_position()
+    {
+        $tilePosition = new TilePosition(1);
+        $this->assertEquals(0, $tilePosition->getRowPosition());
+
+        $tilePosition = new TilePosition(4);
+        $this->assertEquals(0, $tilePosition->getRowPosition());
+
+        $tilePosition = new TilePosition(5);
+        $this->assertEquals(1, $tilePosition->getRowPosition());
+
+        $tilePosition = new TilePosition(9);
+        $this->assertEquals(2, $tilePosition->getRowPosition());
     }
 }
