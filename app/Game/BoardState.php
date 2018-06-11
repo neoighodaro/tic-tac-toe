@@ -40,7 +40,7 @@ class BoardState implements Arrayable, Jsonable
     public function add($tiles): BoardState
     {
         if (! is_array($tiles)) {
-            $tiles = (array) $tiles;
+            $tiles = [$tiles];
         }
 
         foreach ($tiles as $tile) {
@@ -48,8 +48,10 @@ class BoardState implements Arrayable, Jsonable
                 throw new InvalidBoardStateException;
             }
 
-            $currentState = $this->state[$tile->getPosition()->getRow()];
-            $currentState[$tile->getPosition()->getRowPosition()];
+            $currentState = $this->state[$tile->getRow()];
+            $currentState[$tile->getRowPosition()] = $tile->getUnit();
+
+            $this->state[$tile->getRow()] = $currentState;
         }
 
         return $this;

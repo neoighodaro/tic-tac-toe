@@ -1,8 +1,8 @@
 <?php
 
-use App\Game\BoardState;
-use App\Game\TileType;
 use App\Game\Tile;
+use App\Game\TileType;
+use App\Game\BoardState;
 use App\Game\TilePosition;
 
 class BoardStateTest extends TestCase
@@ -11,9 +11,7 @@ class BoardStateTest extends TestCase
     public function it_can_add_new_state()
     {
         $state = app(BoardState::class); // BoardState singleton
-        $state->add(
-            (new Tile)->withType(TileType::O))->withPosition(1)
-        );
+        $state->add((new Tile)->withType(TileType::O)->withPosition(1));
 
         $expectedStateArray = [
             [TileType::O, '', ''],

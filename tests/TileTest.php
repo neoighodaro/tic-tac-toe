@@ -17,7 +17,7 @@ class TileTest extends TestCase
         $this->assertEquals($tileType, $tile->getTileType());
         $this->assertEquals($tilePosition, $tile->getTilePosition());
 
-        $tile = (new Tile)->withType('O')->andPosition(9);
+        $tile = (new Tile)->withType(TileType::O)->andPosition(9);
 
         $this->assertEquals($tileType, $tile->getTileType());
         $this->assertEquals($tilePosition, $tile->getTilePosition());
@@ -26,7 +26,7 @@ class TileTest extends TestCase
     /** @test */
     public function it_can_get_tile_row()
     {
-        $tile = (new Tile)->withType('O')->andPosition(2);
+        $tile = (new Tile)->withType(TileType::O)->andPosition(2);
 
         $this->assertEquals(0, $tile->getRow());
     }
@@ -34,8 +34,16 @@ class TileTest extends TestCase
     /** @test */
     public function it_can_get_tile_row_position()
     {
-        $tile = (new Tile)->withType('O')->andPosition(2);
+        $tile = (new Tile)->withType(TileType::O)->andPosition(2);
 
         $this->assertEquals(1, $tile->getRowPosition());
+    }
+
+    /** @test */
+    public function it_can_get_tile_unit()
+    {
+        $tile = (new Tile)->withType(TileType::O)->andPosition(2);
+
+        $this->assertEquals(TileType::O, $tile->getUnit());
     }
 }
