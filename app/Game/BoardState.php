@@ -48,10 +48,10 @@ class BoardState implements Arrayable, Jsonable
                 throw new InvalidBoardStateException;
             }
 
-            $currentState = $this->state[$tile->getRow()];
-            $currentState[$tile->getRowPosition()] = $tile->getType();
+            $row = $tile->getRow();
+            $position = $tile->getRowPosition();
 
-            $this->state[$tile->getRow()] = $currentState;
+            $this->state[$row][$position] = $tile->getType();
         }
 
         return $this;
