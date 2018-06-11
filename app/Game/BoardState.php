@@ -61,6 +61,10 @@ class BoardState implements Arrayable, Jsonable
         foreach ($tiles as $tile) {
             throw_unless($tile instanceof Tile, InvalidBoardStateException::class);
 
+            if ($lastMove = $this->moves->last()) {
+                throw_if($lastMove['unit'] === $tile->getType(), InvalidBoardStateException::class);
+            }
+
             $currentState = $this->state[$tile->getRow()];
             $currentState[$tile->getRowPosition()] = $tile->getType();
 
