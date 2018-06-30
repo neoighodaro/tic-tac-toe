@@ -54,16 +54,12 @@ class BoardState implements Arrayable, Jsonable
      */
     public function add($tiles): BoardState
     {
-        if (! is_array($tiles)) {
+        if (!is_array($tiles)) {
             $tiles = [$tiles];
         }
 
         foreach ($tiles as $tile) {
-            throw_unless($tile instanceof Tile, InvalidBoardStateException::class);
-
-            if ($lastMove = $this->moves->last()) {
-                throw_if($lastMove['unit'] === $tile->getType(), InvalidBoardStateException::class);
-            }
+            $this->validateMoveForTile($tile);
 
             $currentState = $this->state[$tile->getRow()];
             $currentState[$tile->getRowPosition()] = $tile->getType();
@@ -109,5 +105,24 @@ class BoardState implements Arrayable, Jsonable
     public function toJson($options = 0): string
     {
         return $this->state->toJson($options);
+    }
+
+    /**
+     * Validates the move for the tile.
+     *
+     * @param Tile $tile
+     * @return void
+     * @throws \App\Exceptions\InvalidBoardStateException
+     */
+    private function validateMoveForTile(Tile $tile)
+    {
+        throw_unless($tile instanceof Tile, InvalidBoardStateException::class);
+
+        if ($lastMove = $this->moves->last()) {
+            $sameUnit = $lastMove['unit'] === $tile->getType();
+            $samePosition = ($lastMove['x'] == $tile->getRowPosition() and $lastMove['y'] == $tile->getRow());
+
+            throw_if($samePosition or $sameUnit, InvalidBoardStateException::class);
+        }
     }
 }

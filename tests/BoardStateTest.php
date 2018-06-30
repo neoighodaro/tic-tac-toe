@@ -11,23 +11,25 @@ class BoardStateTest extends TestCase
     /** @test */
     public function it_can_add_new_state()
     {
-        $state = app(BoardState::class); // BoardState singleton
-        $state->add((new Tile)->withType(TileType::O)->withPosition(1));
+        $boardState = app(BoardState::class); // BoardState singleton
 
-        $expectedStateArray = [
+        $boardState->add((new Tile)->withType(TileType::O)->withPosition(1));
+
+        $expectedBoardState = [
             [TileType::O, '', ''],
             ['', '', ''],
             ['', '', ''],
         ];
 
-        $this->assertEquals($expectedStateArray, $state->toArray());
+        $this->assertEquals($expectedBoardState, $boardState->toArray());
     }
 
     /** @test */
     public function it_can_add_new_states()
     {
-        $state = app(BoardState::class); // BoardState singleton
-        $state->add([
+        $boardState = app(BoardState::class); // BoardState singleton
+
+        $boardState->add([
             (new Tile)->withType(TileType::O)->withPosition(1),
             (new Tile)->withType(TileType::X)->withPosition(2),
             (new Tile)->withType(TileType::O)->withPosition(9)
@@ -39,14 +41,15 @@ class BoardStateTest extends TestCase
             ['', '', TileType::O],
         ];
 
-        $this->assertEquals($expectedStateArray, $state->toArray());
+        $this->assertEquals($expectedStateArray, $boardState->toArray());
     }
 
     /** @test */
     public function it_can_show_moves_history()
     {
-        $state = app(BoardState::class); // BoardState singleton
-        $state->add([
+        $boardState = app(BoardState::class); // BoardState singleton
+
+        $boardState->add([
             (new Tile)->withType(TileType::O)->withPosition(1),
             (new Tile)->withType(TileType::X)->withPosition(2),
             (new Tile)->withType(TileType::O)->withPosition(9)
@@ -58,7 +61,7 @@ class BoardStateTest extends TestCase
             ['x' => 2, 'y' => 2, 'unit' => TileType::O],
         ];
 
-        $this->assertEquals($expected, $state->getMoves()->toArray());
+        $this->assertEquals($expected, $boardState->getMoves()->toArray());
     }
 
     /** @test */
@@ -66,8 +69,7 @@ class BoardStateTest extends TestCase
     {
         $this->expectException(InvalidBoardStateException::class);
 
-        $state = app(BoardState::class); // BoardState singleton
-        $state->add([
+        app(BoardState::class)->add([
             (new Tile)->withType(TileType::O)->withPosition(1),
             (new Tile)->withType(TileType::X)->withPosition(2),
             (new Tile)->withType(TileType::X)->withPosition(3),
@@ -76,15 +78,13 @@ class BoardStateTest extends TestCase
     }
 
     /** @test */
-    // public function it_can_determine_if_move_is_valid()
-    // {
-    //     $this->expectException(InvalidBoardStateException::class);
+    public function it_can_determine_if_move_is_valid()
+    {
+        $this->expectException(InvalidBoardStateException::class);
 
-    //     $state = app(BoardState::class); // BoardState singleton
-
-    //     $state->add([
-    //         new Tile(new TileType(TileType::O), new TilePosition(1)),
-    //         new Tile(new TileType(TileType::O), new TilePosition(1)),
-    //     ]);
-    // }
+        app(BoardState::class)->add([
+            new Tile(new TileType(TileType::O), new TilePosition(1)),
+            new Tile(new TileType(TileType::X), new TilePosition(1)),
+        ]);
+    }
 }
