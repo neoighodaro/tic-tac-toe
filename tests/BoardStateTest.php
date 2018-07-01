@@ -61,7 +61,7 @@ class BoardStateTest extends TestCase
             ['x' => 2, 'y' => 2, 'unit' => TileType::O],
         ];
 
-        $this->assertEquals($expected, $boardState->getMoves()->toArray());
+        $this->assertEquals($expected, $boardState->getHistory()->toArray());
     }
 
     /** @test */
@@ -109,14 +109,14 @@ class BoardStateTest extends TestCase
     {
         $boardState = app(BoardState::class);
 
-        $movesArray = [
+        $historyArray = [
             ['x' => 0, 'y' => 0, 'unit' => TileType::O],
             ['x' => 1, 'y' => 0, 'unit' => TileType::X],
             ['x' => 2, 'y' => 2, 'unit' => TileType::O],
         ];
 
-        $boardState->loadMovesHistory($movesArray);
+        $boardState->loadHistory($historyArray);
 
-        $this->assertEquals($movesArray, $boardState->getMoves()->toArray());
+        $this->assertEquals($historyArray, $boardState->getHistory()->toArray());
     }
 }

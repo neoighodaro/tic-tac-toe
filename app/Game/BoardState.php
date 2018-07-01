@@ -32,7 +32,7 @@ class BoardState implements Arrayable, Jsonable
      *
      * @var \Illuminate\Support\Collection
      */
-    protected $moves;
+    protected $history;
 
     /**
      * Class constructor
@@ -41,7 +41,7 @@ class BoardState implements Arrayable, Jsonable
      */
     public function __construct()
     {
-        $this->loadMovesHistory([]);
+        $this->loadHistory([]);
         $this->loadState($this->defaultState);
     }
 
@@ -63,7 +63,7 @@ class BoardState implements Arrayable, Jsonable
             $currentState = $this->state[$tile->getRow()];
             $currentState[$tile->getRowPosition()] = $tile->getType();
 
-            $this->moves->push([
+            $this->history->push([
                 'x' => $tile->getRowPosition(),
                 'y' => $tile->getRow(),
                 'unit' => $tile->getType(),
@@ -92,9 +92,9 @@ class BoardState implements Arrayable, Jsonable
      * @param array $moves
      * @return void
      */
-    public function loadMovesHistory(array $moves)
+    public function loadHistory(array $moves)
     {
-        $this->moves = new Collection($moves);
+        $this->history = new Collection($moves);
     }
 
     /**
@@ -102,9 +102,9 @@ class BoardState implements Arrayable, Jsonable
      *
      * @return Collection
      */
-    public function getMoves(): Collection
+    public function getHistory(): Collection
     {
-        return $this->moves;
+        return $this->history;
     }
 
     /**
@@ -139,7 +139,7 @@ class BoardState implements Arrayable, Jsonable
     {
         throw_unless($tile instanceof Tile, InvalidBoardStateException::class);
 
-        if ($lastMove = $this->moves->last()) {
+        if ($lastMove = $this->getHistory()->last()) {
             $sameUnit = $lastMove['unit'] === $tile->getType();
             $samePosition = ($lastMove['x'] == $tile->getRowPosition() and $lastMove['y'] == $tile->getRow());
 
