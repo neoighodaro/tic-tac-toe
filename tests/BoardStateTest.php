@@ -158,4 +158,69 @@ class BoardStateTest extends TestCase
 
         $this->assertEquals(TileType::X, $boardState->nextPlayerUnit());
     }
+
+    /** @test */
+    public function it_checks_you_cant_win_with_less_than_five_moves()
+    {
+        $boardState = app(BoardState::class);
+
+        $boardState->add([
+            (new Tile)->withType(TileType::O)->withPosition(1),
+            (new Tile)->withType(TileType::X)->withPosition(3),
+            (new Tile)->withType(TileType::O)->withPosition(4),
+            (new Tile)->withType(TileType::X)->withPosition(5),
+        ]);
+
+        $this->assertFalse($boardState->checkWinner());
+    }
+
+    /** @test */
+    public function it_checks_that_user_can_win_diagonally()
+    {
+        $boardState = app(BoardState::class);
+
+        $boardState->add([
+            (new Tile)->withType(TileType::O)->withPosition(1),
+            (new Tile)->withType(TileType::X)->withPosition(3),
+            (new Tile)->withType(TileType::O)->withPosition(4),
+            (new Tile)->withType(TileType::X)->withPosition(5),
+            (new Tile)->withType(TileType::O)->withPosition(8),
+            (new Tile)->withType(TileType::X)->withPosition(7),
+        ]);
+
+        $this->assertEquals(TileType::X, $boardState->checkWinner());
+    }
+
+    /** @test */
+    public function it_checks_that_user_can_win_on_x_axis()
+    {
+        $boardState = app(BoardState::class);
+
+        $boardState->add([
+            (new Tile)->withType(TileType::O)->withPosition(4),
+            (new Tile)->withType(TileType::X)->withPosition(3),
+            (new Tile)->withType(TileType::O)->withPosition(9),
+            (new Tile)->withType(TileType::X)->withPosition(2),
+            (new Tile)->withType(TileType::O)->withPosition(8),
+            (new Tile)->withType(TileType::X)->withPosition(1),
+        ]);
+
+        $this->assertEquals(TileType::X, $boardState->checkWinner());
+    }
+
+    /** @test */
+    public function it_checks_that_user_can_win_on_y_axis()
+    {
+        $boardState = app(BoardState::class);
+
+        $boardState->add([
+            (new Tile)->withType(TileType::O)->withPosition(4),
+            (new Tile)->withType(TileType::X)->withPosition(2),
+            (new Tile)->withType(TileType::O)->withPosition(1),
+            (new Tile)->withType(TileType::X)->withPosition(9),
+            (new Tile)->withType(TileType::O)->withPosition(7),
+        ]);
+
+        $this->assertEquals(TileType::O, $boardState->checkWinner());
+    }
 }

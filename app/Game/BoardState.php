@@ -124,6 +124,80 @@ class BoardState implements Arrayable, Jsonable
         return $this->history;
     }
 
+    private function wonOnXAxis(Collection $move): bool
+    {
+        $won = true;
+
+        foreach ($this->state[$move['x']] as $tileUnit) {
+            if ($move->get('unit') !== $tileUnit) {
+                $won = false;
+                break;
+            }
+        }
+
+        return $won;
+    }
+
+    private function wonOnYAxis(Collection $move): bool
+    {
+        $won = true;
+
+        foreach ($this->state as $boardRow) {
+            if ($move->get('unit') !== $boardRow[$move['y']]) {
+                $won = false;
+                break;
+            }
+        }
+
+        return $won;
+    }
+
+    private function wonOnXYAxis($move)
+    {
+        if (($move->get('position') & 1) !== 1) {
+            return false;
+        }
+
+        $axisPositions = [
+            [0, 1, 2],
+            [2, 1, 0],
+        ];
+
+        foreach ($axisPositions as $tiles) {
+            $won = true;
+
+            foreach ($this->state as $index => $boardRow) {
+                $positionInRow = $tiles[$index];
+
+                if ($move->get('unit') !== $boardRow[$positionInRow]) {
+                    $won = false;
+                    break;
+                }
+            }
+
+            if ($won) {
+                break;
+            }
+        }
+
+        return $won;
+    }
+
+    public function checkWinner()
+    {
+        if ($this->getHistory()->count() < 5) {
+            return false;
+        }
+
+        $move = new Collection($this->getHistory()->last());
+
+        if ($this->wonOnXAxis($move) or $this->wonOnYAxis($move) or $this->wonOnXYAxis($move)) {
+            return $move->get('unit');
+        }
+
+        return false;
+    }
+
     /**
      * Returns an array representation of the state.
      *
@@ -174,12 +248,17 @@ class BoardState implements Arrayable, Jsonable
     private function validateMoveForTile(Tile $tile)
     {
         throw_unless($tile instanceof Tile, InvalidBoardStateException::class);
+        throw_unless($this->checkWinner() === false, InvalidBoardStateException::class);
 
         if ($lastMove = $this->getHistory()->last()) {
             $sameUnit = $lastMove['unit'] === $tile->getType();
-            $samePosition = ($lastMove['x'] == $tile->getRowPosition() and $lastMove['y'] == $tile->getRow());
+            $samePosition = ($lastMove['x'] == $tile->getRow() and $lastMove['y'] == $tile->getRowPosition());
 
             throw_if($samePosition or $sameUnit, InvalidBoardStateException::class);
         }
+    }
+
+    private function checkUnitWinOnAxis()
+    {
     }
 }
