@@ -83,6 +83,8 @@ class BoardState implements Arrayable, Jsonable
      */
     public function loadState(array $state)
     {
+        $this->validateLoadedState($state);
+
         $this->state = new Collection($state);
     }
 
@@ -126,6 +128,15 @@ class BoardState implements Arrayable, Jsonable
     public function toJson($options = 0): string
     {
         return $this->state->toJson($options);
+    }
+
+    private function validateLoadedState(array $state)
+    {
+        throw_unless(count($state) === 3, InvalidBoardStateException::class);
+
+        foreach ($state as $row) {
+            throw_unless(count($row) === 3, InvalidBoardStateException::class);
+        }
     }
 
     /**
