@@ -142,4 +142,20 @@ class BoardStateTest extends TestCase
 
         $this->assertEquals($historyArray, $boardState->getHistory()->toArray());
     }
+
+    /** @test */
+    public function it_returns_the_next_player()
+    {
+        $boardState = app(BoardState::class);
+
+        $boardState->add([
+            (new Tile)->withType(TileType::O)->withPosition(1),
+            (new Tile)->withType(TileType::X)->withPosition(2),
+            (new Tile)->withType(TileType::O)->withPosition(5),
+            (new Tile)->withType(TileType::X)->withPosition(4),
+            (new Tile)->withType(TileType::O)->withPosition(8),
+        ]);
+
+        $this->assertEquals(TileType::X, $boardState->nextPlayerUnit());
+    }
 }

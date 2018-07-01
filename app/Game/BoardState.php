@@ -76,6 +76,20 @@ class BoardState implements Arrayable, Jsonable
     }
 
     /**
+     * Gets the next player.
+     *
+     * @return string|false
+     */
+    public function nextPlayerUnit()
+    {
+        if ($lastMove = $this->getHistory()->last()) {
+            return $lastMove['unit'] === TileType::O ? TileType::X : TileType::O;
+        }
+
+        return false;
+    }
+
+    /**
      * Load state from array
      *
      * @param array $state
