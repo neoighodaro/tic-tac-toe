@@ -160,7 +160,7 @@ class BoardStateTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_you_cant_win_with_less_than_five_moves()
+    public function it_validates_users_cant_win_with_less_than_five_moves()
     {
         $boardState = app(BoardState::class);
 
@@ -169,6 +169,26 @@ class BoardStateTest extends TestCase
             (new Tile)->withType(TileType::X)->withPosition(3),
             (new Tile)->withType(TileType::O)->withPosition(4),
             (new Tile)->withType(TileType::X)->withPosition(5),
+        ]);
+
+        $this->assertFalse($boardState->checkWinner());
+    }
+
+    /** @test */
+    public function it_checks_if_users_can_draw()
+    {
+        $boardState = app(BoardState::class);
+
+        $boardState->add([
+            (new Tile)->withType(TileType::O)->withPosition(1),
+            (new Tile)->withType(TileType::X)->withPosition(2),
+            (new Tile)->withType(TileType::O)->withPosition(6),
+            (new Tile)->withType(TileType::X)->withPosition(5),
+            (new Tile)->withType(TileType::O)->withPosition(8),
+            (new Tile)->withType(TileType::X)->withPosition(7),
+            (new Tile)->withType(TileType::O)->withPosition(3),
+            (new Tile)->withType(TileType::X)->withPosition(9),
+            (new Tile)->withType(TileType::O)->withPosition(4),
         ]);
 
         $this->assertFalse($boardState->checkWinner());
