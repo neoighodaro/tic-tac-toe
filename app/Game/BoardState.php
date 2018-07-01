@@ -64,8 +64,8 @@ class BoardState implements Arrayable, Jsonable
             $currentState[$tile->getRowPosition()] = $tile->getType();
 
             $this->history->push([
-                'x' => $tile->getRowPosition(),
-                'y' => $tile->getRow(),
+                'x' => $tile->getRow(),
+                'y' => $tile->getRowPosition(),
                 'unit' => $tile->getType(),
             ]);
 

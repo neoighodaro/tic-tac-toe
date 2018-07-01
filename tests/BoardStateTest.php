@@ -57,7 +57,7 @@ class BoardStateTest extends TestCase
 
         $expected = [
             ['x' => 0, 'y' => 0, 'unit' => TileType::O],
-            ['x' => 1, 'y' => 0, 'unit' => TileType::X],
+            ['x' => 0, 'y' => 1, 'unit' => TileType::X],
             ['x' => 2, 'y' => 2, 'unit' => TileType::O],
         ];
 
