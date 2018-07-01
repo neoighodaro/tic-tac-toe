@@ -41,8 +41,7 @@ class BoardState implements Arrayable, Jsonable
      */
     public function __construct()
     {
-        $this->moves = new Collection([]);
-
+        $this->loadMovesHistory([]);
         $this->loadState($this->defaultState);
     }
 
@@ -85,6 +84,17 @@ class BoardState implements Arrayable, Jsonable
     public function loadState(array $state)
     {
         $this->state = new Collection($state);
+    }
+
+    /**
+     * Load moves history from array.
+     *
+     * @param array $moves
+     * @return void
+     */
+    public function loadMovesHistory(array $moves)
+    {
+        $this->moves = new Collection($moves);
     }
 
     /**

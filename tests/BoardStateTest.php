@@ -103,4 +103,20 @@ class BoardStateTest extends TestCase
 
         $this->assertEquals($stateArray, $boardState->toArray());
     }
+
+    /** @test */
+    public function it_loads_history_from_array()
+    {
+        $boardState = app(BoardState::class);
+
+        $movesArray = [
+            ['x' => 0, 'y' => 0, 'unit' => TileType::O],
+            ['x' => 1, 'y' => 0, 'unit' => TileType::X],
+            ['x' => 2, 'y' => 2, 'unit' => TileType::O],
+        ];
+
+        $boardState->loadMovesHistory($movesArray);
+
+        $this->assertEquals($movesArray, $boardState->getMoves()->toArray());
+    }
 }
