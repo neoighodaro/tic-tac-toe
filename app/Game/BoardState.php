@@ -43,7 +43,7 @@ class BoardState implements Arrayable, Jsonable
     {
         $this->moves = new Collection([]);
 
-        $this->state = new Collection($this->defaultState);
+        $this->loadState($this->defaultState);
     }
 
     /**
@@ -74,6 +74,17 @@ class BoardState implements Arrayable, Jsonable
         }
 
         return $this;
+    }
+
+    /**
+     * Load state from array
+     *
+     * @param array $state
+     * @return void
+     */
+    public function loadState(array $state)
+    {
+        $this->state = new Collection($state);
     }
 
     /**

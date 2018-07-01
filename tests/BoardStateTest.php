@@ -87,4 +87,20 @@ class BoardStateTest extends TestCase
             new Tile(new TileType(TileType::X), new TilePosition(1)),
         ]);
     }
+
+    /** @test */
+    public function it_loads_state_from_array()
+    {
+        $boardState = app(BoardState::class);
+
+        $stateArray = [
+            [TileType::O, TileType::X, ''],
+            ['', '', ''],
+            ['', '', TileType::O],
+        ];
+
+        $boardState->loadState($stateArray);
+
+        $this->assertEquals($stateArray, $boardState->toArray());
+    }
 }
