@@ -105,12 +105,24 @@ class BoardStateTest extends TestCase
     }
 
     /** @test */
-    public function it_validates_state_loaded_from_array()
+    public function it_validates_incomplete_state_loaded_from_array()
     {
         $this->expectException(InvalidBoardStateException::class);
 
         app(BoardState::class)->loadState([
             [TileType::O, TileType::X, ''],
+            ['', '', ''],
+        ]);
+    }
+
+    /** @test */
+    public function it_validates_invalid_type_for_state_loaded_from_array()
+    {
+        $this->expectException(InvalidBoardStateException::class);
+
+        app(BoardState::class)->loadState([
+            ['Z', TileType::X, ''],
+            ['', '', ''],
             ['', '', ''],
         ]);
     }

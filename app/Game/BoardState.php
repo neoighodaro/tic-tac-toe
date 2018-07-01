@@ -130,12 +130,22 @@ class BoardState implements Arrayable, Jsonable
         return $this->state->toJson($options);
     }
 
+    /**
+     * Validates loaded state.
+     *
+     * @param array $state
+     * @return void
+     */
     private function validateLoadedState(array $state)
     {
         throw_unless(count($state) === 3, InvalidBoardStateException::class);
 
         foreach ($state as $row) {
-            throw_unless(count($row) === 3, InvalidBoardStateException::class);
+            $filtered = array_filter($row, function ($value) {
+                return $value === TileType::O || $value === TileType::X || $value === '';
+            });
+
+            throw_unless(count($filtered) === 3, InvalidBoardStateException::class);
         }
     }
 
