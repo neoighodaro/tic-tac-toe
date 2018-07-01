@@ -56,9 +56,9 @@ class BoardStateTest extends TestCase
         ]);
 
         $expected = [
-            ['x' => 0, 'y' => 0, 'unit' => TileType::O],
-            ['x' => 0, 'y' => 1, 'unit' => TileType::X],
-            ['x' => 2, 'y' => 2, 'unit' => TileType::O],
+            ['x' => 0, 'y' => 0, 'unit' => TileType::O, 'position' => 1],
+            ['x' => 0, 'y' => 1, 'unit' => TileType::X, 'position' => 2],
+            ['x' => 2, 'y' => 2, 'unit' => TileType::O, 'position' => 9],
         ];
 
         $this->assertEquals($expected, $boardState->getHistory()->toArray());
@@ -133,9 +133,9 @@ class BoardStateTest extends TestCase
         $boardState = app(BoardState::class);
 
         $historyArray = [
-            ['x' => 0, 'y' => 0, 'unit' => TileType::O],
-            ['x' => 1, 'y' => 0, 'unit' => TileType::X],
-            ['x' => 2, 'y' => 2, 'unit' => TileType::O],
+            ['x' => 0, 'y' => 0, 'unit' => TileType::O, 'position' => 1],
+            ['x' => 1, 'y' => 0, 'unit' => TileType::X, 'position' => 2],
+            ['x' => 2, 'y' => 2, 'unit' => TileType::O, 'position' => 9],
         ];
 
         $boardState->loadHistory($historyArray);
