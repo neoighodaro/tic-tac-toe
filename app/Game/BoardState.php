@@ -131,7 +131,7 @@ class BoardState implements Arrayable, Jsonable
         $this->history = new Collection($moves);
 
         return $this;
-            }
+    }
 
     public function checkWinner()
     {
@@ -253,8 +253,8 @@ class BoardState implements Arrayable, Jsonable
             if ($move->get('unit') !== $boardRow[$move['y']]) {
                 $won = false;
                 break;
+            }
         }
-    }
 
         return $won;
     }

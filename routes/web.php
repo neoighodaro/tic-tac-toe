@@ -11,8 +11,10 @@
 |
 */
 
+$router->post('/game/new', 'GameController@create');
+$router->get('/game/{id}/status', 'GameController@status');
 $router->get('/game/{id}', 'GameController@show');
-$router->post('/game/new-session', 'GameController@create');
+$router->post('/game/{id}', 'GameController@update');
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
