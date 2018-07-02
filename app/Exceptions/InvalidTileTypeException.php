@@ -2,6 +2,6 @@
 
 namespace App\Exceptions;
 
-class InvalidTileTypeException extends GameException
+class InvalidTileTypeException extends InvalidBoardStateException
 {
 }
