@@ -101,6 +101,8 @@ class BoardState implements Arrayable, Jsonable
         $this->validateLoadedState($state);
 
         $this->state = new Collection($state);
+
+        return $this;
     }
 
     /**
@@ -124,14 +126,7 @@ class BoardState implements Arrayable, Jsonable
         return $this->history;
     }
 
-    private function wonOnXAxis(Collection $move): bool
-    {
-        $won = true;
-
-        foreach ($this->state[$move['x']] as $tileUnit) {
-            if ($move->get('unit') !== $tileUnit) {
-                $won = false;
-                break;
+        return $this;
             }
         }
 
