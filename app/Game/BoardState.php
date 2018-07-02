@@ -121,66 +121,17 @@ class BoardState implements Arrayable, Jsonable
     }
 
     /**
-     * Returns the moves made in the board.
+     * Load moves history from array.
      *
-     * @return Collection
+     * @param array $moves
+     * @return void
      */
-    public function getHistory(): Collection
+    public function loadHistory(array $moves)
     {
-        return $this->history;
-    }
+        $this->history = new Collection($moves);
 
         return $this;
             }
-        }
-
-        return $won;
-    }
-
-    private function wonOnYAxis(Collection $move): bool
-    {
-        $won = true;
-
-        foreach ($this->state as $boardRow) {
-            if ($move->get('unit') !== $boardRow[$move['y']]) {
-                $won = false;
-                break;
-            }
-        }
-
-        return $won;
-    }
-
-    private function wonOnXYAxis($move)
-    {
-        if (($move->get('position') & 1) !== 1) {
-            return false;
-        }
-
-        $axisPositions = [
-            [0, 1, 2],
-            [2, 1, 0],
-        ];
-
-        foreach ($axisPositions as $tiles) {
-            $won = true;
-
-            foreach ($this->state as $index => $boardRow) {
-                $positionInRow = $tiles[$index];
-
-                if ($move->get('unit') !== $boardRow[$positionInRow]) {
-                    $won = false;
-                    break;
-                }
-            }
-
-            if ($won) {
-                break;
-            }
-        }
-
-        return $won;
-    }
 
     public function checkWinner()
     {
@@ -252,12 +203,93 @@ class BoardState implements Arrayable, Jsonable
         if ($lastMove = $this->getHistory()->last()) {
             $sameUnit = $lastMove['unit'] === $tile->getType();
             $samePosition = ($lastMove['x'] == $tile->getRow() and $lastMove['y'] == $tile->getRowPosition());
-
-            throw_if($samePosition or $sameUnit, InvalidBoardStateException::class);
         }
     }
 
-    private function checkUnitWinOnAxis()
+    /**
+     * Returns the moves made in the board.
+     *
+     * @return Collection
+     */
+    public function getHistory() : Collection
     {
+        return $this->history;
+    }
+
+    /**
+     * Checks if the last player won the game on the x-axis
+     *
+     * @param Collection $move
+     * @return boolean
+     */
+    private function wonOnXAxis(Collection $move) : bool
+    {
+        $won = true;
+
+        foreach ($this->state[$move['x']] as $tileUnit) {
+            if ($move->get('unit') !== $tileUnit) {
+                $won = false;
+                break;
+            }
+        }
+
+        return $won;
+    }
+
+    /**
+     * Checks if the current user won the game on the Y axis.
+     *
+     * @param Collection $move
+     * @return boolean
+     */
+    private function wonOnYAxis(Collection $move) : bool
+    {
+        $won = true;
+
+        foreach ($this->state as $boardRow) {
+            if ($move->get('unit') !== $boardRow[$move['y']]) {
+                $won = false;
+                break;
+        }
+    }
+
+        return $won;
+    }
+
+    /**
+     * Checks if the user won the game on the diagonal XY axis.
+     *
+     * @param Collection $move
+     * @return bool
+     */
+    private function wonOnXYAxis(Collection $move): bool
+    {
+        if (($move->get('position') & 1) !== 1) {
+            return false;
+        }
+
+        $axisPositions = [
+            [0, 1, 2],
+            [2, 1, 0],
+        ];
+
+        foreach ($axisPositions as $tiles) {
+            $won = true;
+
+            foreach ($this->state as $index => $boardRow) {
+                $positionInRow = $tiles[$index];
+
+                if ($move->get('unit') !== $boardRow[$positionInRow]) {
+                    $won = false;
+                    break;
+                }
+            }
+
+            if ($won) {
+                break;
+            }
+        }
+
+        return $won;
     }
 }
