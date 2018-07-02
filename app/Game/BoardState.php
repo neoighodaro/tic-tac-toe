@@ -2,6 +2,7 @@
 
 namespace App\Game;
 
+use App\Models\Game;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
@@ -106,14 +107,17 @@ class BoardState implements Arrayable, Jsonable
     }
 
     /**
-     * Load moves history from array.
+     * Saves the state to the database.
      *
-     * @param array $moves
-     * @return void
+     * @param Game $game
+     * @return boolean
      */
-    public function loadHistory(array $moves)
+    public function saveState(Game $game): bool
     {
-        $this->history = new Collection($moves);
+        return (bool) $game->update([
+            'state' => $this->toArray(),
+            'history' => $this->getHistory()->toArray()
+        ]);
     }
 
     /**

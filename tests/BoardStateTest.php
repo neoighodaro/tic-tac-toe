@@ -243,4 +243,19 @@ class BoardStateTest extends TestCase
 
         $this->assertEquals(TileType::O, $boardState->checkWinner());
     }
+
+    /** @test */
+    public function it_saves_state_to_the_game_datase()
+    {
+        $game = $this->getMockBuilder('App\Models\Game')
+            ->setMethods(['update'])
+            ->getMock();
+
+        $game->expects($this->once())->method('update')->willReturn(true);
+
+        $boardState = app(BoardState::class);
+        $boardState->add((new Tile)->withType(TileType::O)->withPosition(4));
+
+        $this->assertTrue($boardState->saveState($game));
+    }
 }
