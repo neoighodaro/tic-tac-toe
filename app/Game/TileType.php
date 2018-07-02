@@ -2,7 +2,6 @@
 
 namespace App\Game;
 
-use App\Exceptions\GameException;
 use App\Exceptions\InvalidTileTypeException;
 
 class TileType
@@ -39,9 +38,9 @@ class TileType
      */
     protected function setType(string $type)
     {
-        if ($type !== static::X and $type !== static::O) {
-            throw new InvalidTileTypeException;
-        }
+        $validTile = ($type === static::X or $type === static::O);
+
+        throw_unless($validTile, InvalidTileTypeException::class, 'Invalid tile type.');
 
         $this->type = $type;
     }
