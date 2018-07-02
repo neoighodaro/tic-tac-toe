@@ -11,6 +11,9 @@
 |
 */
 
+$router->get('/game/{id}', 'GameController@show');
+$router->post('/game/new-session', 'GameController@create');
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
