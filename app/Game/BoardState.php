@@ -177,14 +177,14 @@ class BoardState implements Arrayable, Jsonable
      */
     private function validateLoadedState(array $state)
     {
-        throw_unless(count($state) === 3, InvalidBoardStateException::class);
+        throw_unless(count($state) === 3, InvalidBoardStateException::class, 'Invalid state');
 
         foreach ($state as $row) {
             $filtered = array_filter($row, function ($value) {
                 return $value === TileType::O || $value === TileType::X || $value === '';
             });
 
-            throw_unless(count($filtered) === 3, InvalidBoardStateException::class);
+            throw_unless(count($filtered) === 3, InvalidBoardStateException::class, 'Invalid state');
         }
     }
 
@@ -197,12 +197,15 @@ class BoardState implements Arrayable, Jsonable
      */
     private function validateMoveForTile(Tile $tile)
     {
-        throw_unless($tile instanceof Tile, InvalidBoardStateException::class);
-        throw_unless($this->checkWinner() === false, InvalidBoardStateException::class);
+        throw_unless($tile instanceof Tile, InvalidBoardStateException::class, 'Invalid tile.');
+        throw_unless($this->checkWinner() === false, InvalidBoardStateException::class, 'Game is over');
 
         if ($lastMove = $this->getHistory()->last()) {
             $sameUnit = $lastMove['unit'] === $tile->getType();
+            throw_if($sameUnit, InvalidBoardStateException::class, 'Not your turn');
+
             $samePosition = ($lastMove['x'] == $tile->getRow() and $lastMove['y'] == $tile->getRowPosition());
+            throw_if($samePosition or $sameUnit, InvalidBoardStateException::class, 'Tile position occupied');
         }
     }
 
