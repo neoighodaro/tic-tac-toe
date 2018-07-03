@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Game\BoardState;
 use Illuminate\Support\ServiceProvider;
+use App\Game\Tile;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(BoardState::class, function () {
             return new BoardState;
+        });
+
+        $this->app->bind(Tile::class, function () {
+            return new Tile;
         });
     }
 }

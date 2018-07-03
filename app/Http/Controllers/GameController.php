@@ -79,15 +79,16 @@ class GameController extends Controller
      * @param integer $id
      * @param Request $request
      * @param BoardState $boardState
+     * @param Tile $tile
      * @return \Illuminate\Http\Response
      */
-    public function update(int $id, Request $request, BoardState $boardState)
+    public function update(int $id, Request $request, BoardState $boardState, Tile $tile)
     {
         $data = $this->validate($request, ['position' => 'int|between:0,9']);
 
         $game = Game::findOrFail($id);
 
-        $tile = (new Tile)->withType($game->unit)->andPosition($data['position']);
+        $tile = $tile->withType($game->unit)->andPosition($data['position']);
 
         $boardState->loadState($game->state)
             ->loadHistory($game->history)
