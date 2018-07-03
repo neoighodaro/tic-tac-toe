@@ -7,6 +7,7 @@ use App\Game\TileType;
 use App\Game\BoardState;
 use Illuminate\Http\Request;
 use App\Game\Tile;
+use App\Game\MoveInterface;
 
 class GameController extends Controller
 {
@@ -94,6 +95,22 @@ class GameController extends Controller
             ->loadHistory($game->history)
             ->add($tile)
             ->saveState($game);
+
+        return $game->toArray();
+    }
+
+    public function autoplay(int $id, BoardState $boardState, Tile $tile, MoveInterface $move)
+    {
+        $game = Game::findOrFail($id);
+
+        $boardState->loadState($game->state)->loadHistory($game->history);
+
+        $botMove = $move->makeMove($boardState->toArray(), $game->unit);
+
+        $unit = $botMove[2];
+        $position = $boardState->getPositionFromCoordinates($botMove[0], $botMove[1]);
+
+        $boardState->add($tile->withPosition($position)->andType($unit))->saveState($game);
 
         return $game->toArray();
     }

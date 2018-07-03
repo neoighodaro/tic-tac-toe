@@ -21,5 +21,6 @@ class Move implements MoveInterface
      */
     public function makeMove($boardState, $playerUnit = 'X')
     {
+        return [2, 0, 'O'];
     }
 }

@@ -12,6 +12,7 @@
 */
 
 $router->post('/game/new', 'GameController@create');
+$router->get('/game/{id}/autoplay', 'GameController@autoplay');
 $router->get('/game/{id}/status', 'GameController@status');
 $router->get('/game/{id}', 'GameController@show');
 $router->post('/game/{id}', 'GameController@update');
