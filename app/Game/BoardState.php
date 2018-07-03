@@ -133,6 +133,11 @@ class BoardState implements Arrayable, Jsonable
         return $this;
     }
 
+    /**
+     * Checks the winner of the game
+     *
+     * @return mixed
+     */
     public function checkWinner()
     {
         if ($this->getHistory()->count() < 5) {
