@@ -166,6 +166,24 @@ class BoardState implements Arrayable, Jsonable
     }
 
     /**
+     * Get the available playable positions
+     *
+     * @return array
+     */
+    public function availablePositions(): array
+    {
+        $available = [];
+
+        $this->toCollection()->flatten()->each(function ($value, $key) use (&$available) {
+            if ($value === '') {
+                $available[] = $key + 1;
+            }
+        });
+
+        return $available;
+    }
+
+    /**
      * Returns an array representation of the state.
      *
      * @return array
@@ -184,6 +202,16 @@ class BoardState implements Arrayable, Jsonable
     public function toJson($options = 0): string
     {
         return $this->state->toJson($options);
+    }
+
+    /**
+     * Returns a Collection.
+     *
+     * @return Collection
+     */
+    public function toCollection() : Collection
+    {
+        return new Collection($this->toArray());
     }
 
     /**

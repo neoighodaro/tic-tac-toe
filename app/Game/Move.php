@@ -21,6 +21,16 @@ class Move implements MoveInterface
      */
     public function makeMove($boardState, $playerUnit = 'X')
     {
-        return [2, 0, 'O'];
+        $available = [];
+
+        $available = app(BoardState::class)->loadState($boardState)->availablePositions();
+
+        $botUnit = ($playerUnit === TileType::X ? TileType::O : TileType::X);
+
+        $tilePosition = new TilePosition(array_random($available));
+        $x = $tilePosition->getRow();
+        $y = $tilePosition->getRowPosition();
+
+        return [$x, $y, $botUnit];
     }
 }

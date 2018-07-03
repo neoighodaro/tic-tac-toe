@@ -270,4 +270,20 @@ class BoardStateTest extends TestCase
         $position = $boardState->getPositionFromCoordinates(2, 2);
         $this->assertEquals($position, 9);
     }
+
+    /** @test */
+    public function it_returns_available_positions()
+    {
+        $boardState = app(BoardState::class);
+
+        $boardState->add([
+            (new Tile)->withType(TileType::O)->withPosition(4),
+            (new Tile)->withType(TileType::X)->withPosition(2),
+            (new Tile)->withType(TileType::O)->withPosition(1),
+            (new Tile)->withType(TileType::X)->withPosition(9),
+            (new Tile)->withType(TileType::O)->withPosition(7),
+        ]);
+
+        $this->assertEquals([3, 5, 6, 8], $boardState->availablePositions());
+    }
 }
