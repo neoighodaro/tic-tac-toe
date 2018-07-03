@@ -84,7 +84,8 @@ class BoardStateTest extends TestCase
 
         app(BoardState::class)->add([
             new Tile(new TileType(TileType::O), new TilePosition(1)),
-            new Tile(new TileType(TileType::X), new TilePosition(1)),
+            new Tile(new TileType(TileType::X), new TilePosition(2)),
+            new Tile(new TileType(TileType::O), new TilePosition(1)),
         ]);
     }
 

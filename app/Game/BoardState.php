@@ -249,8 +249,8 @@ class BoardState implements Arrayable, Jsonable
             $sameUnit = $lastMove['unit'] === $tile->getType();
             throw_if($sameUnit, InvalidBoardStateException::class, 'Not your turn');
 
-            $samePosition = ($lastMove['x'] == $tile->getRow() and $lastMove['y'] == $tile->getRowPosition());
-            throw_if($samePosition or $sameUnit, InvalidBoardStateException::class, 'Tile position occupied');
+            $availablePosition = in_array($tile->getTilePosition()->getPosition(), $this->availablePositions());
+            throw_unless($availablePosition, InvalidBoardStateException::class, 'Tile position occupied');
         }
     }
 
