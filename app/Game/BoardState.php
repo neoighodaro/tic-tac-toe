@@ -149,6 +149,18 @@ class BoardState implements Arrayable, Jsonable
     }
 
     /**
+     * Gets the position from the X and Y coordinates.
+     *
+     * @param integer $x
+     * @param integer $y
+     * @return integer
+     */
+    public function getPositionFromCoordinates(int $x, int $y): int
+    {
+        return ($x + $y) + (($y + 1) + $y);
+    }
+
+    /**
      * Returns an array representation of the state.
      *
      * @return array

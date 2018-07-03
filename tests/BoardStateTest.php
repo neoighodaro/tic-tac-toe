@@ -258,4 +258,16 @@ class BoardStateTest extends TestCase
 
         $this->assertTrue($boardState->saveState($game));
     }
+
+    /** @test */
+    public function it_can_get_position_from_xy_coordinates()
+    {
+        $boardState = app(BoardState::class);
+
+        $position = $boardState->getPositionFromCoordinates(2, 0);
+        $this->assertEquals($position, 3);
+
+        $position = $boardState->getPositionFromCoordinates(2, 2);
+        $this->assertEquals($position, 9);
+    }
 }
