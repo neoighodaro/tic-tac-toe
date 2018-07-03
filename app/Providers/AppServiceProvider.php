@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Game\BoardState;
 use Illuminate\Support\ServiceProvider;
 use App\Game\Tile;
+use App\Game\Move;
+use App\Game\MoveInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(Tile::class, function () {
             return new Tile;
+        });
+
+        $this->app->bind(MoveInterface::class, function () {
+            return new Move;
         });
     }
 }

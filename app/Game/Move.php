@@ -19,7 +19,7 @@ class Move implements MoveInterface
      * @param  string $playerUnit Player unit representation
      * @return array
      */
-    public function makeMove(array $boardState, string $playerUnit = 'X'): array
+    public function makeMove($boardState, $playerUnit = 'X')
     {
     }
 }
