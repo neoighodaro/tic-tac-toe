@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Game;
 use App\Game\TileType;
@@ -8,6 +8,7 @@ use App\Game\BoardState;
 use Illuminate\Http\Request;
 use App\Game\Tile;
 use App\Game\MoveInterface;
+use App\Http\Controllers\Controller;
 
 class GameController extends Controller
 {
