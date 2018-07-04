@@ -2,7 +2,7 @@
 @section('content')
 <div id="tictactoe" data-game='@json($game->toArray())' data-status='@json($status)'>
     <div class="alert" v-if="gameStatus.status !== 'IN_PROGRESS'">
-        <div class="success">
+        <div :class="{success: (gameStatus.status === 'GAME_OVER'), tie: (gameStatus.status === 'TIE')}">
             <span v-if="gameStatus.status === 'TIE'">It's a tie</span>
             <span v-else>Player "@{{ gameStatus.winner }}" is the winner</span>
         </div>
