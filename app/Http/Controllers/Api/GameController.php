@@ -20,18 +20,17 @@ class GameController extends Controller
      */
     public function show(int $id)
     {
-        return Game::findOrFail($id);
+        return response()->json(Game::findOrFail($id)->toArray());
     }
 
     /**
      * Displays the status of a game.
      *
      * @param integer $id
-     * @param Request $request
      * @param BoardState $boardState
      * @return \Illuminate\Http\Response
      */
-    public function status(int $id, Request $request, BoardState $boardState)
+    public function status(int $id, BoardState $boardState)
     {
         $boardState->loadHistory(Game::findOrFail($id)->history);
 
@@ -68,11 +67,13 @@ class GameController extends Controller
     {
         $unit = array_random([TileType::O, TileType::X]);
 
-        return Game::create([
+        $game = Game::create([
             'unit' => $unit,
             'state' => $boardState->toArray(),
             'history' => $boardState->getHistory()->toArray(),
         ]);
+
+        return response()->json($game->toArray());
     }
 
     /**
@@ -97,9 +98,21 @@ class GameController extends Controller
             ->add($tile)
             ->saveState($game);
 
-        return $game->toArray();
+        return response()->json([
+            'game' => $game->toArray(),
+            'status' => $this->status($id, $boardState)
+        ]);
     }
 
+    /**
+     * Returns a move from the bot.
+     *
+     * @param integer $id
+     * @param BoardState $boardState
+     * @param Tile $tile
+     * @param MoveInterface $move
+     * @return \Illuminate\Http\Response
+     */
     public function autoplay(int $id, BoardState $boardState, Tile $tile, MoveInterface $move)
     {
         $game = Game::findOrFail($id);
@@ -110,9 +123,13 @@ class GameController extends Controller
 
         $unit = $botMove[2];
         $position = $boardState->getPositionFromCoordinates($botMove[0], $botMove[1]);
+        dd($botMove[0], $botMove[1], $position);
 
         $boardState->add($tile->withPosition($position)->andType($unit))->saveState($game);
 
-        return $game->toArray();
+        return response()->json([
+            'game' => $game->toArray(),
+            'status' => $this->status($id, $boardState),
+        ]);
     }
 }

@@ -1,0 +1,36 @@
+.grid {
+    background-color: #d9d9d9;
+    border: 1px solid #bbb;
+    padding: 20px;
+    font-size: 80px;
+    line-height: 100px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    margin: 0px 0px 0px 0px;
+    font-weight: 600;
+    color: #272727;
+}
+.grid:hover {
+    background-color: #bbb;
+    cursor: pointer;
+}
+.grid[disabled] {
+    cursor: not-allowed;
+    background-color: #d9d9d9;
+}
+.grid.occupied {
+    background-color: #aaa;
+}
+.grid.occupied:hover {
+    cursor: not-allowed;
+}
+.grid-container {
+    display: none;
+    grid-template-columns: auto auto auto;
+    padding: 6px;
+    justify-content: center;
+}
+.grid-container.show {
+    display: grid;
+}

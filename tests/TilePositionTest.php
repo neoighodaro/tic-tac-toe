@@ -1,7 +1,6 @@
 <?php
 
 use App\Exceptions\InvalidTilePositionException;
-
 use App\Game\TilePosition;
 
 class TilePositionTest extends TestCase
@@ -27,28 +26,28 @@ class TilePositionTest extends TestCase
     public function it_can_return_tile_row()
     {
         $tilePosition = new TilePosition(1);
-        $this->assertEquals(0, $tilePosition->getRow());
+        $this->assertEquals(0, $tilePosition->yAxis());
 
         $tilePosition = new TilePosition(5);
-        $this->assertEquals(1, $tilePosition->getRow());
+        $this->assertEquals(1, $tilePosition->yAxis());
 
         $tilePosition = new TilePosition(9);
-        $this->assertEquals(2, $tilePosition->getRow());
+        $this->assertEquals(2, $tilePosition->yAxis());
     }
 
     /** @test */
     public function it_can_return_tile_row_position()
     {
         $tilePosition = new TilePosition(1);
-        $this->assertEquals(0, $tilePosition->getRowPosition());
+        $this->assertEquals(0, $tilePosition->xAxis());
 
         $tilePosition = new TilePosition(4);
-        $this->assertEquals(0, $tilePosition->getRowPosition());
+        $this->assertEquals(0, $tilePosition->xAxis());
 
         $tilePosition = new TilePosition(5);
-        $this->assertEquals(1, $tilePosition->getRowPosition());
+        $this->assertEquals(1, $tilePosition->xAxis());
 
         $tilePosition = new TilePosition(9);
-        $this->assertEquals(2, $tilePosition->getRowPosition());
+        $this->assertEquals(2, $tilePosition->xAxis());
     }
 }

@@ -64,11 +64,11 @@ class TilePosition
     }
 
     /**
-     * Get the row the tile belongs to.
+     * Get the position on the Y axis
      *
      * @return integer
      */
-    public function getRow(): int
+    public function yAxis(): int
     {
         if ($this->getPosition() > 6) {
             return 2;
@@ -81,9 +81,14 @@ class TilePosition
         return 0;
     }
 
-    public function getRowPosition(): int
+    /**
+     * Get the position on the X axis
+     *
+     * @return integer
+     */
+    public function xAxis(): int
     {
-        $position = $this->getPosition() - ($this->getRow() * 3);
+        $position = $this->getPosition() - ($this->yAxis() * 3);
 
         return $position === 0 ? $position : $position - 1;
     }

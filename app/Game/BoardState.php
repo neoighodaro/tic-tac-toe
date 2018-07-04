@@ -61,17 +61,17 @@ class BoardState implements Arrayable, Jsonable
         foreach ($tiles as $tile) {
             $this->validateMoveForTile($tile);
 
-            $currentState = $this->state[$tile->getRow()];
-            $currentState[$tile->getRowPosition()] = $tile->getType();
+            $currentState = $this->state[$tile->positionOnYAxis()];
+            $currentState[$tile->positionOnXAxis()] = $tile->getType();
 
             $this->history->push([
-                'x' => $tile->getRow(),
-                'y' => $tile->getRowPosition(),
+                'x' => $tile->positionOnXAxis(),
+                'y' => $tile->positionOnYAxis(),
                 'unit' => $tile->getType(),
-                'position' => $tile->getTilePosition()->getPosition()
+                'position' => $tile->gridPosition()
             ]);
 
-            $this->state[$tile->getRow()] = $currentState;
+            $this->state[$tile->positionOnYAxis()] = $currentState;
         }
 
         return $this;
@@ -138,7 +138,7 @@ class BoardState implements Arrayable, Jsonable
      *
      * @return mixed
      */
-    public function checkWinner()
+    public function checkWinner($test = false)
     {
         if ($this->getHistory()->count() < 5) {
             return false;
@@ -249,7 +249,8 @@ class BoardState implements Arrayable, Jsonable
             $sameUnit = $lastMove['unit'] === $tile->getType();
             throw_if($sameUnit, InvalidBoardStateException::class, 'Not your turn');
 
-            $availablePosition = in_array($tile->getTilePosition()->getPosition(), $this->availablePositions());
+            $availablePosition = in_array($tile->gridPosition(), $this->availablePositions());
+
             throw_unless($availablePosition, InvalidBoardStateException::class, 'Tile position occupied');
         }
     }
@@ -274,7 +275,7 @@ class BoardState implements Arrayable, Jsonable
     {
         $won = true;
 
-        foreach ($this->state[$move['x']] as $tileUnit) {
+        foreach ($this->state[$move['y']] as $tileUnit) {
             if ($move->get('unit') !== $tileUnit) {
                 $won = false;
                 break;
@@ -295,7 +296,7 @@ class BoardState implements Arrayable, Jsonable
         $won = true;
 
         foreach ($this->state as $boardRow) {
-            if ($move->get('unit') !== $boardRow[$move['y']]) {
+            if ($move->get('unit') !== $boardRow[$move['x']]) {
                 $won = false;
                 break;
             }

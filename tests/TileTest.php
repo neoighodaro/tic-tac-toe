@@ -28,7 +28,7 @@ class TileTest extends TestCase
     {
         $tile = (new Tile)->withType(TileType::O)->andPosition(2);
 
-        $this->assertEquals(0, $tile->getRow());
+        $this->assertEquals(0, $tile->positionOnYAxis());
     }
 
     /** @test */
@@ -36,7 +36,7 @@ class TileTest extends TestCase
     {
         $tile = (new Tile)->withType(TileType::O)->andPosition(2);
 
-        $this->assertEquals(1, $tile->getRowPosition());
+        $this->assertEquals(1, $tile->positionOnXAxis());
     }
 
     /** @test */

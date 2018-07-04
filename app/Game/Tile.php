@@ -37,9 +37,9 @@ class Tile
      *
      * @return integer
      */
-    public function getRowPosition(): int
+    public function positionOnYAxis(): int
     {
-        return $this->position->getRowPosition();
+        return $this->position->yAxis();
     }
 
     /**
@@ -47,9 +47,19 @@ class Tile
      *
      * @return integer
      */
-    public function getRow(): int
+    public function positionOnXAxis(): int
     {
-        return $this->position->getRow();
+        return $this->position->xAxis();
+    }
+
+    /**
+     * Get the tile position as an integer.
+     *
+     * @return integer
+     */
+    public function gridPosition(): int
+    {
+        return $this->getTilePosition()->getPosition();
     }
 
     /**

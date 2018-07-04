@@ -57,7 +57,7 @@ class BoardStateTest extends TestCase
 
         $expected = [
             ['x' => 0, 'y' => 0, 'unit' => TileType::O, 'position' => 1],
-            ['x' => 0, 'y' => 1, 'unit' => TileType::X, 'position' => 2],
+            ['x' => 1, 'y' => 0, 'unit' => TileType::X, 'position' => 2],
             ['x' => 2, 'y' => 2, 'unit' => TileType::O, 'position' => 9],
         ];
 
@@ -161,6 +161,12 @@ class BoardStateTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_the_next_player_when_no_plays()
+    {
+        $this->assertEquals(false, app(BoardState::class)->nextPlayerUnit());
+    }
+
+    /** @test */
     public function it_validates_users_cant_win_with_less_than_five_moves()
     {
         $boardState = app(BoardState::class);
@@ -242,7 +248,7 @@ class BoardStateTest extends TestCase
             (new Tile)->withType(TileType::O)->withPosition(7),
         ]);
 
-        $this->assertEquals(TileType::O, $boardState->checkWinner());
+        $this->assertEquals(TileType::O, $boardState->checkWinner(true));
     }
 
     /** @test */
@@ -278,13 +284,26 @@ class BoardStateTest extends TestCase
         $boardState = app(BoardState::class);
 
         $boardState->add([
-            (new Tile)->withType(TileType::O)->withPosition(4),
-            (new Tile)->withType(TileType::X)->withPosition(2),
             (new Tile)->withType(TileType::O)->withPosition(1),
-            (new Tile)->withType(TileType::X)->withPosition(9),
-            (new Tile)->withType(TileType::O)->withPosition(7),
+            (new Tile)->withType(TileType::X)->withPosition(2),
+            (new Tile)->withType(TileType::O)->withPosition(6),
+            (new Tile)->withType(TileType::X)->withPosition(5),
+            (new Tile)->withType(TileType::O)->withPosition(8),
         ]);
 
-        $this->assertEquals([3, 5, 6, 8], $boardState->availablePositions());
+        $this->assertEquals([3, 4, 7, 9], $boardState->availablePositions());
+
+        $boardState->add([
+            (new Tile)->withType(TileType::X)->withPosition(7),
+            (new Tile)->withType(TileType::O)->withPosition(3),
+        ]);
+
+        $this->assertEquals([4, 9], $boardState->availablePositions());
+
+        $boardState->add([
+            (new Tile)->withType(TileType::X)->withPosition(9),
+        ]);
+
+        $this->assertEquals([4], $boardState->availablePositions());
     }
 }

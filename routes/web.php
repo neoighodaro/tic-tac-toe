@@ -13,11 +13,13 @@
 
 $router->group(['prefix' => '/api'], function ($router) {
     $router->post('/game/new', 'Api\GameController@create');
-    $router->get('/game/{id}/autoplay', 'Api\GameController@autoplay');
+    $router->post('/game/{id}/autoplay', 'Api\GameController@autoplay');
     $router->get('/game/{id}/status', 'Api\GameController@status');
     $router->get('/game/{id}', 'Api\GameController@show');
     $router->post('/game/{id}', 'Api\GameController@update');
 });
+
+$router->get('/game/{id}', 'GameController@show');
 
 $router->get('/', function () use ($router) {
     return $router->app->version();

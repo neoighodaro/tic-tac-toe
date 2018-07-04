@@ -36,6 +36,6 @@ class MoveTest extends TestCase
 
         $botMove = $moveInterface->makeMove($boardState->toArray(), TileType::X);
 
-        $this->assertEquals([1, 0, TileType::O], $botMove);
+        $this->assertEquals([0, 1, TileType::O], $botMove);
     }
 }

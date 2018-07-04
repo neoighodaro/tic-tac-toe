@@ -28,8 +28,8 @@ class Move implements MoveInterface
         $botUnit = ($playerUnit === TileType::X ? TileType::O : TileType::X);
 
         $tilePosition = new TilePosition(array_random($available));
-        $x = $tilePosition->getRow();
-        $y = $tilePosition->getRowPosition();
+        $x = $tilePosition->xAxis();
+        $y = $tilePosition->yAxis();
 
         return [$x, $y, $botUnit];
     }
