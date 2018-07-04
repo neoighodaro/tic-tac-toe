@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Game;
-use App\Game\TileType;
 use App\Game\BoardState;
 use Illuminate\Http\Request;
 use App\Game\Tile;
@@ -32,7 +31,9 @@ class GameController extends Controller
      */
     public function status(int $id, BoardState $boardState)
     {
-        $boardState->loadHistory(Game::findOrFail($id)->history);
+        $game = Game::findOrFail($id);
+
+        $boardState->loadHistory($game->history)->loadState($game->state);
 
         $winner = $boardState->checkWinner();
 
@@ -52,28 +53,8 @@ class GameController extends Controller
         return [
             'status' => 'IN_PROGRESS',
             'moves_left' => $movesAvailable,
-            'next_player' => $boardState->nextPlayerUnit()
+            'next_player' => $boardState->nextPlayerUnit() ?: $game->unit
         ];
-    }
-
-    /**
-     * Creates a new resource
-     *
-     * @param Request $request
-     * @param BoardState $boardState
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request, BoardState $boardState)
-    {
-        $unit = array_random([TileType::O, TileType::X]);
-
-        $game = Game::create([
-            'unit' => $unit,
-            'state' => $boardState->toArray(),
-            'history' => $boardState->getHistory()->toArray(),
-        ]);
-
-        return response()->json($game->toArray());
     }
 
     /**
@@ -123,7 +104,6 @@ class GameController extends Controller
 
         $unit = $botMove[2];
         $position = $boardState->getPositionFromCoordinates($botMove[0], $botMove[1]);
-        dd($botMove[0], $botMove[1], $position);
 
         $boardState->add($tile->withPosition($position)->andType($unit))->saveState($game);
 

@@ -1,11 +1,16 @@
 @extends('layout')
 @section('content')
-<div id="tictactoe" data-id="{{ $game->id }}" data-game='@json($game->toArray())' data-next-player="{{ $nextPlayer }}">
-    @{{ JSON.stringify(boardState) }}
+<div id="tictactoe" data-game='@json($game->toArray())' data-status='@json($status)'>
+    <div class="alert" v-if="gameStatus.status !== 'IN_PROGRESS'">
+        <div class="success">
+            <span v-if="gameStatus.status === 'TIE'">It's a tie</span>
+            <span v-else>Player "@{{ gameStatus.winner }}" is the winner</span>
+        </div>
+    </div>
     <div class="grid-container" :class="{show: boardState.length === 9}">
         <div
             class="grid"
-            :key="forceStateUpdate + index"
+            :key="forceUpdate + index"
             v-for="(unit, index) in boardState"
             v-on:click="play(index)"
             v-bind:disabled="!isYourTurn()"
@@ -14,6 +19,7 @@
             @{{ unit }}
         </div>
     </div>
+    <a href="/game/new" class="btn" v-if="gameStatus.status !== 'IN_PROGRESS'">New game</a>
 </div>
 @endsection
 
