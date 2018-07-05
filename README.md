@@ -24,3 +24,9 @@ To run the application you need the following installed on the machine:
   - `php artisan migrate`
   - `php -S localhost:8888 -t public`
 * Navigate to http://localhost:8888/game/new on your browser.
+
+## Running tests
+To run the tests, from the root of the directory, run the command below:
+```
+$ ./vendor/bin/phpunit
+```
