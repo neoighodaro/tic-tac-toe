@@ -1,6 +1,6 @@
 # Sample Tic-tac-toe
 
-This is a sample tic-tac-toe
+This is a sample tic-tac-toe application
 
 ## Built using
 * [Lumen](https://lumen.laravel.com/) - PHP micro-framework
